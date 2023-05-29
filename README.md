@@ -1,3 +1,6 @@
+![logo](https://github.com/Munya-Marinda/continuous-scraping-app/assets/84540577/76589d0f-2edc-4dd2-ab74-83e57335dff9)
+
+
 # Continuous Scraping App
 Continuous Web Scraping with React
 
