@@ -5,11 +5,11 @@ Continuous Web Scraping with React
 This project aims to address the issue of server timeouts during web scraping by implementing a React app that performs continuous scraping. The app fetches a list of URLs to be scraped from the server, and even if the server times out, the app ensures that the data is still scraped. The scraping process is carried out by making repeated requests to the server, handling success and failure scenarios, and updating the logs accordingly.
 
 ##Features
--Fetches a list of URLs to be scraped from the server
--Performs continuous scraping even if the server times out
--Displays the current scraping status, including the URL being scraped
--Handles success and failure scenarios during scraping
--Updates and displays logs of the scraping process
+- Fetches a list of URLs to be scraped from the server
+- Performs continuous scraping even if the server times out
+- Displays the current scraping status, including the URL being scraped
+- Handles success and failure scenarios during scraping
+- Updates and displays logs of the scraping process
 
   
 ![Screenshot of the loading page.](https://github.com/Munya-Marinda/frontend-scraper/assets/84540577/83aeea52-a249-4b6e-9ef6-5cacee53d49b)
@@ -33,8 +33,8 @@ npm install
 ```
 
 3. Set up environment variables:
--Create a .env file in the root directory.
--Define the required environment variables in the format VARIABLE_NAME=value. For example:
+- Create a .env file in the root directory.
+- Define the required environment variables in the format VARIABLE_NAME=value. For example:
 ```
 REACT_APP_GET_URLS_TO_SCRAPE=https://your-server-url/get_urls_to_scrape
 REACT_APP_EVOKE_SCRAPE_METHOD=https://your-server-url/evoke_scrape_method
@@ -50,9 +50,9 @@ npm start
 # Usage
 Once the app is running, it will fetch the list of URLs to be scraped from the server. The app will continuously scrape the URLs, even if the server times out during the process. The current scraping status, including the URL being scraped, will be displayed on the page. The logs of the scraping process will be updated and shown in the textarea below.
 
--If the app successfully scrapes a URL, the success message will be logged.
--If the app encounters an error or failure during scraping, the corresponding error message will be logged.
--If the server fails to respond or fetch new URLs, the app will log a connection failure message.
+- If the app successfully scrapes a URL, the success message will be logged.
+- If the app encounters an error or failure during scraping, the corresponding error message will be logged.
+- If the server fails to respond or fetch new URLs, the app will log a connection failure message.
 
 >"Note: The app uses a continuous scraping method to ensure data is scraped even if the server times out. It fetches the URLs to be scraped from the server and performs scraping on each URL sequentially. It handles success and failure scenarios during the scraping process and updates the logs accordingly."
 
