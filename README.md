@@ -4,7 +4,7 @@ Continuous Web Scraping with React
 # Description
 This project aims to address the issue of server timeouts during web scraping by implementing a React app that performs continuous scraping. The app fetches a list of URLs to be scraped from the server, and even if the server times out, the app ensures that the data is still scraped. The scraping process is carried out by making repeated requests to the server, handling success and failure scenarios, and updating the logs accordingly.
 
-##Features
+## Features
 - Fetches a list of URLs to be scraped from the server
 - Performs continuous scraping even if the server times out
 - Displays the current scraping status, including the URL being scraped
