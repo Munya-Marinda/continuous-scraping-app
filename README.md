@@ -1,6 +1,5 @@
 # Continuous Scraping App
-
-## Continuous Web Scraping with React
+Continuous Web Scraping with React
 
 # Description
 This project aims to address the issue of server timeouts during web scraping by implementing a React app that performs continuous scraping. The app fetches a list of URLs to be scraped from the server, and even if the server times out, the app ensures that the data is still scraped. The scraping process is carried out by making repeated requests to the server, handling success and failure scenarios, and updating the logs accordingly.
@@ -11,6 +10,13 @@ This project aims to address the issue of server timeouts during web scraping by
 -Displays the current scraping status, including the URL being scraped
 -Handles success and failure scenarios during scraping
 -Updates and displays logs of the scraping process
+
+  
+![Screenshot of the loading page.](https://github.com/Munya-Marinda/frontend-scraper/assets/84540577/83aeea52-a249-4b6e-9ef6-5cacee53d49b)
+
+![Screenshot of the main page.](https://github.com/Munya-Marinda/frontend-scraper/assets/84540577/9bf1246b-5983-421b-8dd8-99c434b421f7)
+
+
 
 ## Installation
 To run this project locally, follow these steps:
