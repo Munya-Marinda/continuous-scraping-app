@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# Continuous Scraping App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Continuous Web Scraping with React
 
-## Available Scripts
+# Description
+This project aims to address the issue of server timeouts during web scraping by implementing a React app that performs continuous scraping. The app fetches a list of URLs to be scraped from the server, and even if the server times out, the app ensures that the data is still scraped. The scraping process is carried out by making repeated requests to the server, handling success and failure scenarios, and updating the logs accordingly.
 
-In the project directory, you can run:
+##Features
+-Fetches a list of URLs to be scraped from the server
+-Performs continuous scraping even if the server times out
+-Displays the current scraping status, including the URL being scraped
+-Handles success and failure scenarios during scraping
+-Updates and displays logs of the scraping process
 
-### `npm start`
+## Installation
+To run this project locally, follow these steps:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone the repository:
+```
+git clone https://github.com/Munya-Marinda/frontend-scraper.git
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Install the dependencies:
+```
+cd your-repository
+npm install
+```
 
-### `npm test`
+3. Set up environment variables:
+-Create a .env file in the root directory.
+-Define the required environment variables in the format VARIABLE_NAME=value. For example:
+```
+REACT_APP_GET_URLS_TO_SCRAPE=https://your-server-url/get_urls_to_scrape
+REACT_APP_EVOKE_SCRAPE_METHOD=https://your-server-url/evoke_scrape_method
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Start the development server:
+```
+npm start
+```
 
-### `npm run build`
+5. Open your web browser and visit http://localhost:3000 to access the app.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Usage
+Once the app is running, it will fetch the list of URLs to be scraped from the server. The app will continuously scrape the URLs, even if the server times out during the process. The current scraping status, including the URL being scraped, will be displayed on the page. The logs of the scraping process will be updated and shown in the textarea below.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-If the app successfully scrapes a URL, the success message will be logged.
+-If the app encounters an error or failure during scraping, the corresponding error message will be logged.
+-If the server fails to respond or fetch new URLs, the app will log a connection failure message.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+>"Note: The app uses a continuous scraping method to ensure data is scraped even if the server times out. It fetches the URLs to be scraped from the server and performs scraping on each URL sequentially. It handles success and failure scenarios during the scraping process and updates the logs accordingly."
 
-### `npm run eject`
+Click the "SCRAPE" button to start the continuous scraping process. The button label changes to "SCRAPING" when the scraping is in progress. The button is disabled when there are no URLs to scrape or when the app is already scraping.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Contributing
+Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request in the repository.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# License
+This project is licensed under the MIT License.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+>"Disclaimer: The information provided in this project's documentation is for demonstration purposes only and does not reflect real functionality."
