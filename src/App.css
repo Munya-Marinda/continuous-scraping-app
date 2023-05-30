@@ -19,6 +19,28 @@
   color: white;
 }
 
+.center-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-2 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.tab-class-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
 .button-1:hover {
   background-color: #ffdd61;
 }
@@ -46,13 +68,19 @@
   font-weight: bold;
   border: 0px;
   border-radius: 5px;
-  margin-top: 40px;
 }
 
 .spinner-1 {
   width: 75px !important;
   height: 75px !important;
   margin: 45px 0px !important;
+  background-color: #00e6c0 !important;
+}
+
+.spinner-2 {
+  width: 25px !important;
+  height: 25px !important;
+  margin: 0px 10px !important;
   background-color: #00e6c0 !important;
 }
 

@@ -1,33 +1,88 @@
 import "./App.css";
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 
 function App() {
-  const [urls, setUrls] = useState([]);
   const [logs, setLogs] = useState("");
+  //
+  const [urls, setUrls] = useState(false);
   const [urlToScrape, setUrlToScrape] = useState(["", 0]);
   const [busyScrapingDeals, setBusyScrapingDeals] = useState(false);
+  //
+  const [imagesToDownload, setImagesToDownload] = useState([]);
+  const [busyScrapingImages, setBusyScrapingImages] = useState(false);
+  //
+  const [totolScrapedStats, setTotolScrapedStats] = useState({
+    totalLive: "null",
+    totalDead: "null",
+  });
+  const [busyCheckingDeadUrls, setBusyCheckingDeadUrls] = useState(false);
+  //
 
-  const fetchUrls = async () => {
+  const fetchUrls = useCallback(async () => {
+    fetchImagesToDownload();
     try {
       const url = process.env.REACT_APP_GET_URLS_TO_SCRAPE + "?scrape_urls=1";
       const urls_ = await axios.get(url);
-      setUrls(urls_.data.data);
-      return true;
+      if (typeof urls_.data !== "string") {
+        setUrls(urls_.data.data);
+        // console.error(urls_.data.data);
+        return true;
+      } else {
+        console.log("Error fetching logs.");
+        return false;
+      }
     } catch (error) {
       // console.error(error);
       return false;
     }
-  };
+  }, []);
+
+  const fetchImagesToDownload = useCallback(async () => {
+    try {
+      const url = process.env.REACT_APP_GET_IMAGES_TO_DOWNLOAD;
+      const images_ = await axios.get(url);
+      if (typeof images_.data === "object") {
+        setImagesToDownload(images_.data);
+        return true;
+      } else {
+        console.log("Error fetching images to download.");
+        // console.error(images_.data.data);
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }, []);
+
+  const fetchStats = useCallback(async () => {
+    try {
+      const url = process.env.REACT_APP_GET_STATS;
+      const response = await axios.get(url);
+      if (typeof response.data === "object") {
+        setTotolScrapedStats(response.data.data);
+        console.log(response.data.data);
+      } else {
+        console.log("Error fetching images to download.");
+      }
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+    fetchStats();
+  }, []);
 
   useEffect(() => {
     fetchUrls();
-  }, []);
+    fetchImagesToDownload();
+    fetchStats();
+  }, [fetchUrls, fetchImagesToDownload, fetchStats]);
 
-  const continiousScraping = async () => {
-    if (urls.length !== 0 && !busyScrapingDeals) {
+  const continiousScrapingDeals = async () => {
+    if (urls?.length !== 0 && !busyScrapingDeals) {
       setBusyScrapingDeals(true);
       var logs_ = "";
       var i = 0;
@@ -83,11 +138,53 @@ function App() {
     }
   };
 
+  const continiousScrapingImages = async () => {
+    fetchImagesToDownload();
+    if (imagesToDownload.length > 0 && !busyScrapingImages) {
+      setBusyScrapingImages(true);
+      const serverUrl = process.env.REACT_APP_EVOKE_IMAGES_DOWNLOAD_METHOD;
+      try {
+        const response = await axios.get(serverUrl);
+        console.log(response.data);
+        if (response.data.result === true) {
+          console.log("Server did not time-out");
+        } else {
+          console.log("Server Timed Out");
+        }
+        setBusyScrapingImages(false);
+      } catch (error) {
+        console.log("Connection to server failed");
+        setBusyScrapingImages(false);
+        continiousScrapingImages();
+      }
+    }
+  };
+
+  const continiousCheckDeadUrls = async () => {
+    if (!busyCheckingDeadUrls) {
+      setBusyCheckingDeadUrls(true);
+      const serverUrl = process.env.REACT_APP_CHECK_DEAD_URLS;
+      try {
+        const response = await axios.get(serverUrl);
+        console.log(response.data);
+        if (response.data.result === true) {
+          console.log("Server did not time-out");
+        } else {
+          console.log("Server Timed Out");
+        }
+        setBusyCheckingDeadUrls(false);
+      } catch (error) {
+        console.log("Connection to server failed");
+        setBusyCheckingDeadUrls(false);
+      }
+    }
+  };
+
   return (
     <React.StrictMode>
       <div className="App">
         <header className="App-header">
-          {urls.length === 0 && (
+          {!urls && (
             <Fragment>
               <table style={{ maxWidth: "500px" }}>
                 <tbody>
@@ -105,43 +202,116 @@ function App() {
               </table>
             </Fragment>
           )}
-          {urls.length > 0 && (
+          {urls !== false && (
             <Fragment>
-              {busyScrapingDeals && (
-                <Spinner className={"spinner-1"} animation="grow" />
-              )}
-              <table style={{ maxWidth: "500px" }}>
-                <tbody>
-                  <tr>
-                    <td>
-                      <h4>{urls.length} Total URLs To Scrape</h4>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={{ margin: "0px 40px" }}>
-                      {urlToScrape[0].length === 0 ? (
-                        <h4>Not scraping.</h4>
-                      ) : (
-                        <h4>
-                          Scraping {urlToScrape[1] + " of " + urls.length}:
-                        </h4>
-                      )}
+              <main className="center-2">
+                {/* EVOKE CHECKING DEAD URLS */}
+                <div className="tab-class-1">
+                  <div className={"center-1"} style={{ marginBottom: "40px" }}>
+                    {busyCheckingDeadUrls && (
+                      <Spinner className={"spinner-2"} animation="grow" />
+                    )}
+                    <button
+                      className={"button-2"}
+                      style={{
+                        opacity: busyCheckingDeadUrls ? 0.5 : 1,
+                      }}
+                      onClick={continiousCheckDeadUrls}
+                    >
+                      {busyCheckingDeadUrls ? "CHECKING" : "CHECK"}
+                    </button>
+                    {busyCheckingDeadUrls && (
+                      <Spinner className={"spinner-2"} animation="grow" />
+                    )}
+                  </div>
+                  <table style={{ maxWidth: "500px" }}>
+                    <tbody>
+                      <tr>
+                        <td style={{ margin: "0px 40px" }}>
+                          <h4>
+                            {totolScrapedStats.totalLive +
+                              " Live | " +
+                              totolScrapedStats.totalDead +
+                              " Dead"}
+                          </h4>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-                      <h6>{urlToScrape[0]}</h6>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <button
-                className={"button-2"}
-                style={{
-                  opacity: urls.length === 0 || busyScrapingDeals ? 0.5 : 1,
-                }}
-                onClick={continiousScraping}
-              >
-                {busyScrapingDeals ? "SCRAPING" : "SCRAPE"}
-              </button>
-
+                {/* EVOKE SCRAPE URLS */}
+                <div className="tab-class-1">
+                  <div className={"center-1"} style={{ marginBottom: "40px" }}>
+                    {busyScrapingDeals && (
+                      <Spinner className={"spinner-2"} animation="grow" />
+                    )}
+                    <button
+                      className={"button-2"}
+                      style={{
+                        opacity:
+                          urls.length === 0 || busyScrapingDeals ? 0.5 : 1,
+                      }}
+                      onClick={continiousScrapingDeals}
+                    >
+                      {busyScrapingDeals ? "SCRAPING" : "SCRAPE"}
+                    </button>
+                    {busyScrapingDeals && (
+                      <Spinner className={"spinner-2"} animation="grow" />
+                    )}
+                  </div>
+                  <table style={{ maxWidth: "500px" }}>
+                    <tbody>
+                      <tr>
+                        <td style={{ margin: "0px 40px" }}>
+                          {urlToScrape[0].length === 0 ? (
+                            <h4>{urlToScrape[0].length} Urls To Scrape</h4>
+                          ) : (
+                            <h4>
+                              Scraping {urlToScrape[1] + " of " + urls.length}:
+                            </h4>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {/* EVOKE DOWNLOAD IMAGES */}
+                <div className="tab-class-1">
+                  <div className={"center-1"} style={{ marginBottom: "40px" }}>
+                    {busyScrapingImages && (
+                      <Spinner className={"spinner-2"} animation="grow" />
+                    )}
+                    <button
+                      className={"button-2"}
+                      style={{
+                        opacity:
+                          imagesToDownload.length === 0 || busyScrapingImages
+                            ? 0.5
+                            : 1,
+                      }}
+                      onClick={continiousScrapingImages}
+                    >
+                      {busyScrapingImages ? "DOWNLOADING" : "DOWNLOAD"}
+                    </button>
+                    {busyScrapingImages && (
+                      <Spinner className={"spinner-2"} animation="grow" />
+                    )}
+                  </div>
+                  <table style={{ maxWidth: "500px" }}>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h4>{imagesToDownload.length} Images To Download</h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={{ margin: "0px 40px" }}></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </main>
               <textarea
                 style={{
                   fontSize: "16px",
@@ -149,6 +319,7 @@ function App() {
                   width: "80vw",
                   maxWidth: "1000px",
                   marginTop: "40px",
+                  padding: "20px",
                 }}
                 rows={15}
                 value={"LOGS" + logs}
