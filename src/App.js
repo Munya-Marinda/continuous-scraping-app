@@ -28,7 +28,7 @@ function App() {
       const urls_ = await axios.get(url);
       if (typeof urls_.data !== "string") {
         setUrls(urls_.data.data);
-        // console.error(urls_.data.data);
+        console.error(urls_.data.data);
         return true;
       } else {
         console.log("Error fetching logs.");
@@ -265,7 +265,7 @@ function App() {
                       <tr>
                         <td style={{ margin: "0px 40px" }}>
                           {urlToScrape[0].length === 0 ? (
-                            <h4>{urlToScrape[0].length} Urls To Scrape</h4>
+                            <h4>{urls.length} Urls To Scrape</h4>
                           ) : (
                             <h4>
                               Scraping {urlToScrape[1] + " of " + urls.length}:
