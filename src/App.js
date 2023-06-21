@@ -72,14 +72,14 @@ function App() {
       console.error(error);
       return false;
     }
-    fetchStats();
+    // fetchStats();
   }, []);
 
   useEffect(() => {
     fetchUrls();
     fetchImagesToDownload();
     fetchStats();
-  }, [fetchUrls, fetchImagesToDownload, fetchStats]);
+  }, []);
 
   const continiousScrapingDeals = async () => {
     if (urls?.length !== 0 && !busyScrapingDeals) {
